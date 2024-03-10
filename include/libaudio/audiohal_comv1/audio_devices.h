@@ -39,6 +39,12 @@ typedef enum {
     DEVICE_SPEAKER_AND_USB_HEADSET,
     DEVICE_SPEAKER_AND_BT_SCO_HEADSET,
 
+    // BT A2DP Offload playback devices
+#ifdef SUPPORT_BTA2DP_OFFLOAD
+    DEVICE_BT_A2DP_HEADPHONE,
+    DEVICE_SPEAKER_AND_BT_A2DP_HEADPHONE,
+#endif
+
     // Special Playback Devices
     DEVICE_AUX_DIGITAL,
     DEVICE_FM_EXTERNAL,
@@ -83,6 +89,7 @@ typedef enum {
     /* Playback Path modifier */
     MODIFIER_BT_SCO_RX_NB = 0,
     MODIFIER_BT_SCO_RX_WB,
+    MODIFIER_BT_A2DP_PLAYBACK,
 
     /* Capture Path modifier */
     MODIFIER_BT_SCO_TX_NB,

@@ -153,6 +153,10 @@ void  proxy_set_call_path_param(uint32_t set, uint32_t param, int32_t value);
 void proxy_init_offload_effect_lib(void *proxy);
 void proxy_update_offload_effect(void *proxy_stream, int type);
 
+#ifdef SUPPORT_BTA2DP_OFFLOAD
+bool proxy_is_bt_a2dp_ready(void);
+#endif
+
 // Audio Device Proxy Dump Function
 int   proxy_fw_dump(int fd);
 
