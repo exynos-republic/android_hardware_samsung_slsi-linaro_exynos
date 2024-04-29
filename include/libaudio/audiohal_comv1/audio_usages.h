@@ -38,7 +38,9 @@ typedef enum {
     // These audio usages are defined from Audio Mode and Voice Status
     AUSAGE_CPCALL_MIN,
     AUSAGE_VOICE_CALL_NB = AUSAGE_CPCALL_MIN,
+    AUSAGE_VOICE_CALL_NB_HAC,
     AUSAGE_VOICE_CALL_WB,
+    AUSAGE_VOICE_CALL_WB_HAC,
     AUSAGE_VOLTE_CALL_NB,
     AUSAGE_VOLTE_CALL_WB,
     AUSAGE_VOLTE_CALL_SWB,
@@ -46,8 +48,8 @@ typedef enum {
     AUSAGE_VOLTE_VT_CALL_WB,
     AUSAGE_VOLTE_VT_CALL_SWB,
     AUSAGE_TTY,
+    AUSAGE_INCALL_MUSIC,     //Music playback during CP call, sent to other device as CP Tx
     AUSAGE_CALL_FORWARDING_PRIMARY,
-    AUSAGE_INCALL_REC_CALLMEMO,
     AUSAGE_SPECTRO,
     AUSAGE_CPCALL_MAX = AUSAGE_SPECTRO,
 
@@ -56,6 +58,7 @@ typedef enum {
     AUSAGE_WIFI_CALL_WB,
     AUSAGE_WIFI_CALL_SWB,
     AUSAGE_VIDEO_CALL,
+    AUSAGE_VOIP_CALL,
     AUSAGE_COMMUNICATION,
     AUSAGE_AP_TTY,
     AUSAGE_APCALL_MAX = AUSAGE_AP_TTY,
@@ -69,9 +72,11 @@ typedef enum {
     AUSAGE_RECOGNITION,
 
     // Other Audio Usages
-    AUSAGE_FM_RADIO,
+    AUSAGE_FM_RADIO_TUNER,         // for FM radio playback
+    AUSAGE_FM_RADIO_CAPTURE, // for FM radio capture
     AUSAGE_USB_FM_RADIO,
     AUSAGE_REMOTE_MIC,
+    AUSAGE_LISTENBACK,
 
     // Voice WakeUp Usages
 #ifdef SUPPORT_STHAL_INTERFACE
@@ -88,6 +93,7 @@ typedef enum {
     AUSAGE_LOOPBACK_MAX = AUSAGE_LOOPBACK_CODEC,
 
     AUSAGE_RMS,                            //RMS Test
+
     AUSAGE_NONE,
     AUSAGE_MAX,
     AUSAGE_CNT            = AUSAGE_MAX

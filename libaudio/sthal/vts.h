@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2019 The Android Open Source Project
+ * Copyright (C) 2018 The Android Open Source Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,14 +14,21 @@
  * limitations under the License.
  */
 
-#ifndef __AUDIO_COMMON_INTERFACE_H__
-#define __AUDIO_COMMON_INTERFACE_H__
+#ifndef _UAPI__SOUND_VTS_H
+#define _UAPI__SOUND_VTS_H
 
-/* General Function for Mode Selection */
-bool isCPCallMode(struct audio_device *adev);
-bool isAPCallMode(struct audio_device *adev);
+#if defined(__KERNEL__) || defined(__linux__)
+#include <linux/types.h>
+#else
+#include <sys/ioctl.h>
+#endif
 
-/* General Function for Mixer Control */
-int adev_mixer_ctl_get_number(struct audio_device *adev, char *name);
+#ifndef __KERNEL__
+#include <stdlib.h>
+#endif
 
-#endif // __AUDIO_COMMON_INTERFACE_H__
+#define VTSDRV_MISC_IOCTL_WRITE_SVOICE _IOW('V', 0x00, int)
+#define VTSDRV_MISC_IOCTL_WRITE_GOOGLE _IOW('V', 0x01, int)
+#define VTSDRV_MISC_IOCTL_READ_GOOGLE_VERSION _IOR('V', 0x02, int)
+
+#endif /* _UAPI__SOUND_VTS_H */
