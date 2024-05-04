@@ -67,6 +67,7 @@ enum v4l2_buf_type {
   V4L2_BUF_TYPE_SDR_CAPTURE = 11,
 /* WARNING: DO NOT EDIT, AUTO-GENERATED CODE - SEE TOP FOR INSTRUCTIONS */
   V4L2_BUF_TYPE_SDR_OUTPUT = 12,
+  V4L2_BUF_TYPE_META_CAPTURE         = 13,
   V4L2_BUF_TYPE_PRIVATE = 0x80,
 };
 #define V4L2_TYPE_IS_MULTIPLANAR(type) ((type) == V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE || (type) == V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE)
@@ -1378,6 +1379,11 @@ struct v4l2_sdr_format {
 /* WARNING: DO NOT EDIT, AUTO-GENERATED CODE - SEE TOP FOR INSTRUCTIONS */
   __u8 reserved[24];
 } __attribute__((packed));
+/* WARNING: DO NOT EDIT, AUTO-GENERATED CODE - SEE TOP FOR INSTRUCTIONS */
+struct v4l2_meta_format {
+	__u32				dataformat;
+	__u32				buffersize;
+} __attribute__ ((packed));
 struct v4l2_format {
   __u32 type;
 /* WARNING: DO NOT EDIT, AUTO-GENERATED CODE - SEE TOP FOR INSTRUCTIONS */
@@ -1389,6 +1395,7 @@ struct v4l2_format {
     struct v4l2_vbi_format vbi;
     struct v4l2_sliced_vbi_format sliced;
     struct v4l2_sdr_format sdr;
+    struct v4l2_meta_format		meta;    /* V4L2_BUF_TYPE_META_CAPTURE */
     __u8 raw_data[200];
 /* WARNING: DO NOT EDIT, AUTO-GENERATED CODE - SEE TOP FOR INSTRUCTIONS */
   } fmt;
