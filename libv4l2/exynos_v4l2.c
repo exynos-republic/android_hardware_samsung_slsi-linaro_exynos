@@ -349,6 +349,21 @@ int exynos_v4l2_g_fmt(int fd, struct v4l2_format *fmt)
     return ret;
 }
 
+void log_v4l2_format_exynos(const struct v4l2_format *format) {
+    __android_log_print(ANDROID_LOG_DEBUG, "v4l2_format", "from function __v4l2_s_fmt:");
+    __android_log_print(ANDROID_LOG_DEBUG, "v4l2_format", "type: %d", format->type);
+    __android_log_print(ANDROID_LOG_DEBUG, "v4l2_format", "pixelformat: %x", format->fmt.pix_mp.pixelformat);
+    __android_log_print(ANDROID_LOG_DEBUG, "v4l2_format", "width: %d", format->fmt.pix_mp.width);
+    __android_log_print(ANDROID_LOG_DEBUG, "v4l2_format", "height: %d", format->fmt.pix_mp.height);
+    __android_log_print(ANDROID_LOG_DEBUG, "v4l2_format", "plane_fmt[0].bytesperline: %d", format->fmt.pix_mp.plane_fmt[0].bytesperline);
+    __android_log_print(ANDROID_LOG_DEBUG, "v4l2_format", "num_planes: %d", format->fmt.pix_mp.num_planes);
+    __android_log_print(ANDROID_LOG_DEBUG, "v4l2_format", "flags: %d", format->fmt.pix_mp.flags);
+
+    for (int i = 0; i < format->fmt.pix_mp.num_planes; i++) {
+        __android_log_print(ANDROID_LOG_DEBUG, "v4l2_format", "plane_fmt[%d].sizeimage: %d", i, format->fmt.pix_mp.plane_fmt[i].sizeimage);
+    }
+}
+
 static int __v4l2_s_fmt(int fd, unsigned int request, struct v4l2_format *fmt)
 {
     int ret = -1;
@@ -375,6 +390,14 @@ static int __v4l2_s_fmt(int fd, unsigned int request, struct v4l2_format *fmt)
                 ALOGE("failed to ioctl: VIDIOC_TRY_FMT (%d - %s)", errno, strerror(errno));
             else
                 ALOGE("failed to ioctl: VIDIOC_S_FMT (%d - %s)", errno, strerror(errno));
+                ALOGE("failed to ioctl: VIDIOC_S_FMT. IOCTL INFO: fd: %d request: %d look log_v4l2_format_exynos for fmt ", fd, request);
+                log_v4l2_format_exynos(fmt);
+                if (request == VIDIOC_S_FMT){
+                    ALOGE("ioctl Request is == VIDIOC_S_FMT");
+                }
+                if (request == VIDIOC_TRY_FMT){
+                    ALOGE("ioctl Request is == VIDIOC_S_FMT");
+                }
 
             return ret;
         }
