@@ -541,6 +541,44 @@ int exynos_v4l2_qbuf(int fd, struct v4l2_buffer *buf)
     return ret;
 }
 
+void log_v4l2_buffer(const struct v4l2_buffer *buffer) {
+    __android_log_print(ANDROID_LOG_DEBUG, "v4l2_buffer", "index: %u", buffer->index);
+    __android_log_print(ANDROID_LOG_DEBUG, "v4l2_buffer", "type: %u", buffer->type);
+    __android_log_print(ANDROID_LOG_DEBUG, "v4l2_buffer", "bytesused: %u", buffer->bytesused);
+    __android_log_print(ANDROID_LOG_DEBUG, "v4l2_buffer", "flags: %u", buffer->flags);
+    __android_log_print(ANDROID_LOG_DEBUG, "v4l2_buffer", "field: %u", buffer->field);
+    __android_log_print(ANDROID_LOG_DEBUG, "v4l2_buffer", "timestamp.tv_sec: %ld", buffer->timestamp.tv_sec);
+    __android_log_print(ANDROID_LOG_DEBUG, "v4l2_buffer", "timestamp.tv_usec: %ld", buffer->timestamp.tv_usec);
+    __android_log_print(ANDROID_LOG_DEBUG, "v4l2_buffer", "timecode.type: %u", buffer->timecode.type);
+    __android_log_print(ANDROID_LOG_DEBUG, "v4l2_buffer", "timecode.flags: %u", buffer->timecode.flags);
+    __android_log_print(ANDROID_LOG_DEBUG, "v4l2_buffer", "timecode.frames: %u", buffer->timecode.frames);
+    __android_log_print(ANDROID_LOG_DEBUG, "v4l2_buffer", "timecode.seconds: %u", buffer->timecode.seconds);
+    __android_log_print(ANDROID_LOG_DEBUG, "v4l2_buffer", "timecode.minutes: %u", buffer->timecode.minutes);
+    __android_log_print(ANDROID_LOG_DEBUG, "v4l2_buffer", "timecode.hours: %u", buffer->timecode.hours);
+    __android_log_print(ANDROID_LOG_DEBUG, "v4l2_buffer", "timecode.userbits: %s", (char *)&buffer->timecode.userbits);
+    __android_log_print(ANDROID_LOG_DEBUG, "v4l2_buffer", "sequence: %u", buffer->sequence);
+    __android_log_print(ANDROID_LOG_DEBUG, "v4l2_buffer", "memory: %u", buffer->memory);
+
+    switch (buffer->memory) {
+        case V4L2_MEMORY_MMAP:
+            __android_log_print(ANDROID_LOG_DEBUG, "v4l2_buffer", "m.offset: %u", buffer->m.offset);
+            break;
+        case V4L2_MEMORY_USERPTR:
+            __android_log_print(ANDROID_LOG_DEBUG, "v4l2_buffer", "m.userptr: %lu", buffer->m.userptr);
+            break;
+        case V4L2_MEMORY_OVERLAY:
+            __android_log_print(ANDROID_LOG_DEBUG, "v4l2_buffer", "m.userptr: %p", (void *)buffer->m.userptr);
+            break;
+        case V4L2_MEMORY_DMABUF:
+            __android_log_print(ANDROID_LOG_DEBUG, "v4l2_buffer", "m.fd: %u", (int32_t)buffer->m.fd);
+            break;
+    }
+
+    __android_log_print(ANDROID_LOG_DEBUG, "v4l2_buffer", "length: %u", buffer->length);
+    __android_log_print(ANDROID_LOG_DEBUG, "v4l2_buffer", "reserved2: %u", buffer->reserved2);
+    __android_log_print(ANDROID_LOG_DEBUG, "v4l2_buffer", "reserved: %u", buffer->reserved);
+}
+
 int exynos_v4l2_dqbuf(int fd, struct v4l2_buffer *buf)
 {
     int ret = -1;
@@ -575,6 +613,8 @@ int exynos_v4l2_dqbuf(int fd, struct v4l2_buffer *buf)
             return -errno;
 
         ALOGW("failed to ioctl: VIDIOC_DQBUF (%d - %s)", errno, strerror(errno));
+        ALOGE("failed to ioctl: VIDIOC_DQBUF. IOCTL INFO: fd: %d & look buf below ", fd);
+        log_v4l2_buffer(buf);
         return ret;
     }
 
