@@ -613,7 +613,7 @@ int exynos_v4l2_dqbuf(int fd, struct v4l2_buffer *buf)
             return -errno;
 
         ALOGW("failed to ioctl: VIDIOC_DQBUF (%d - %s)", errno, strerror(errno));
-        ALOGE("failed to ioctl: VIDIOC_DQBUF. IOCTL INFO: fd: %d & look buf below ", fd);
+        ALOGE("failed to ioctl: VIDIOC_DQBUF. IOCTL INFO: fd: %d & look buf below \n ioctl info: RET = %d", fd, ret);
         log_v4l2_buffer(buf);
         return ret;
     }
