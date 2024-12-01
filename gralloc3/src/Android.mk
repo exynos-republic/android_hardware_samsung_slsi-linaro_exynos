@@ -20,18 +20,12 @@ LOCAL_PATH := $(call my-dir)
 # HAL module implemenation, not prelinked.
 # Binary located in hw/gralloc.<ro.product.board>.so
 include $(CLEAR_VARS)
-ifndef PLATFORM_SDK_VERSION
-include $(BUILD_SYSTEM)/version_defaults.mk
-endif
 
 # Include makefile which exports Gralloc Major and Minor version numbers
 include $(LOCAL_PATH)/../gralloc.version.mk
 
 # Include platform specific makefiles
 include $(if $(wildcard $(LOCAL_PATH)/Android.$(TARGET_BOARD_PLATFORM).mk), $(LOCAL_PATH)/Android.$(TARGET_BOARD_PLATFORM).mk,)
-
-PLATFORM_SDK_GREATER_THAN_24 := $(shell expr $(PLATFORM_SDK_VERSION) \> 24)
-PLATFORM_SDK_LESS_THAN_28 := $(shell expr $(PLATFORM_SDK_VERSION) \< 28)
 
 MALI_GRALLOC_VPU_LIBRARY_PATH?=\"/system/lib/\"
 MALI_GRALLOC_GPU_LIBRARY_64_PATH1 := \"/vendor/lib64/egl/\"
@@ -159,7 +153,7 @@ LOCAL_C_INCLUDES := $(MALI_LOCAL_PATH) $(MALI_DDK_INCLUDES) \
     $(TOP)/hardware/samsung_slsi-linaro/exynos/include
 
 # General compilation flags
-LOCAL_CFLAGS := -Werror -DLOG_TAG=\"gralloc\" -DPLATFORM_SDK_VERSION=$(PLATFORM_SDK_VERSION)
+LOCAL_CFLAGS := -Werror -DLOG_TAG=\"gralloc\"
 
 # ALOGV flag
 LOCAL_CFLAGS += -DLOG_NDEBUG=$(MALI_GRALLOC_DISABLE_ALOGV)
@@ -252,12 +246,9 @@ else ifeq ($(GRALLOC_VERSION_MAJOR), 2)
     endif
 endif
 
-PLATFORM_SDK_GREATER_THAN_26 := $(shell expr $(PLATFORM_SDK_VERSION) \> 26)
-ifeq ($(PLATFORM_SDK_GREATER_THAN_26), 1)
 LOCAL_SHARED_LIBRARIES += libnativewindow
 LOCAL_STATIC_LIBRARIES := libarect
 LOCAL_HEADER_LIBRARIES := libnativebase_headers
-endif
 
 LOCAL_PRELINK_MODULE := false
 LOCAL_MODULE_RELATIVE_PATH := hw
@@ -347,18 +338,12 @@ include $(CLEAR_VARS)
 # HAL module implemenation, not prelinked.
 # Binary located in hw/gralloc.<ro.product.board>.so
 include $(CLEAR_VARS)
-ifndef PLATFORM_SDK_VERSION
-include $(BUILD_SYSTEM)/version_defaults.mk
-endif
 
 # Include makefile which exports Gralloc Major and Minor version numbers
 include $(LOCAL_PATH)/../gralloc.version.mk
 
 # Include platform specific makefiles
 include $(if $(wildcard $(LOCAL_PATH)/Android.$(TARGET_BOARD_PLATFORM).mk), $(LOCAL_PATH)/Android.$(TARGET_BOARD_PLATFORM).mk,)
-
-PLATFORM_SDK_GREATER_THAN_24 := $(shell expr $(PLATFORM_SDK_VERSION) \> 24)
-PLATFORM_SDK_LESS_THAN_28 := $(shell expr $(PLATFORM_SDK_VERSION) \< 28)
 
 MALI_GRALLOC_VPU_LIBRARY_PATH?=\"/system/lib/\"
 MALI_GRALLOC_GPU_LIBRARY_64_PATH1 := \"/vendor/lib64/egl/\"
@@ -472,7 +457,7 @@ LOCAL_C_INCLUDES := $(MALI_LOCAL_PATH) $(MALI_DDK_INCLUDES) \
     $(TOP)/hardware/samsung_slsi-linaro/exynos/include
 
 # General compilation flags
-LOCAL_CFLAGS := -Werror -DLOG_TAG=\"gralloc\" -DPLATFORM_SDK_VERSION=$(PLATFORM_SDK_VERSION)
+LOCAL_CFLAGS := -Werror -DLOG_TAG=\"gralloc\"
 
 # ALOGV flag
 LOCAL_CFLAGS += -DLOG_NDEBUG=$(MALI_GRALLOC_DISABLE_ALOGV)
@@ -570,12 +555,9 @@ endif
 
 LOCAL_SHARED_LIBRARIES += android.hardware.graphics.mapper@2.0
 
-PLATFORM_SDK_GREATER_THAN_26 := $(shell expr $(PLATFORM_SDK_VERSION) \> 26)
-ifeq ($(PLATFORM_SDK_GREATER_THAN_26), 1)
 LOCAL_SHARED_LIBRARIES += libnativewindow
 LOCAL_STATIC_LIBRARIES := libarect
 LOCAL_HEADER_LIBRARIES := libnativebase_headers
-endif
 
 LOCAL_PRELINK_MODULE := false
 LOCAL_MODULE_PATH_32 := $(TARGET_OUT_VENDOR)/lib
